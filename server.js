@@ -31,6 +31,7 @@ const db = mysql.createConnection({
     
     });
 
+    //Global variable for the mysql connection
     global.db = db;
   
   app.listen(port, () => {

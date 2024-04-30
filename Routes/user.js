@@ -1,9 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-//const crypto = require('crypto');
 const router = express.Router();
-//const db = require("../server");
 
 // Generate JWT token for the registered user
 const secretKey = "qwertyuiop";
@@ -18,7 +16,6 @@ router.post('/register', (req, res) => {
     //variavel global database
     const db = global.db;
     const { nome, telefone, email, especialidade, password, pais_nome } = req.body;
-    console.log(req.body.pais_nome)
     // Generate salt and hash password
     bcrypt.hash(password, 10, (err, hashedPassword) => {
       if (err) {
@@ -26,7 +23,7 @@ router.post('/register', (req, res) => {
         return res.status(500).json({ message: 'Error hashing password' });
       }
   
-      // Obtem o id do Pais baseado no nome do pais
+      // Obtain the id of the country based on the country name
       const sqlGetCountryId = `SELECT id FROM pais WHERE nome = ?`;
   
       db.query(sqlGetCountryId, [pais_nome], (err, results) => {
@@ -128,5 +125,5 @@ router.get('/profile', verifyToken, (req, res) => {
   });
 });
 
-// exporta as rotas para o server.js
+// Exports the routes to server.js
 module.exports = router;
