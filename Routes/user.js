@@ -1,9 +1,12 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
+//const crypto = require('crypto');
 const router = express.Router();
-const db = require("../server");
+//const db = require("../server");
+
+// Generate JWT token for the registered user
+const secretKey = "qwertyuiop";
 
 router.get('/', (req, res) => {
     res.send('Hello World From Express!')
@@ -47,9 +50,6 @@ router.post('/register', (req, res) => {
             console.error(err);
             return res.status(500).json({ message: 'Error registering user' });
           }
-          
-          // Generate JWT token for the registered user
-          const secretKey = crypto.randomBytes(32).toString('hex');
           const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
           res.status(201).json({ message: 'User registered successfully', token });
         });
@@ -57,6 +57,76 @@ router.post('/register', (req, res) => {
     });
   });
 
+// Login Endpoint
+router.post('/login', (req, res) => {
+  const db = global.db;
+  const { email, password } = req.body;
+  
+  // Check if user exists
+  db.query('SELECT * FROM utilizador WHERE email = ?', email, (err, results) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).json({ message: 'Error logging in' });
+      }
+
+      if (results.length === 0) {
+          return res.status(401).json({ message: 'Invalid email or password' });
+      }
+
+      const user = results[0];
+
+      // Compare hashed passwords
+      bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({ message: 'Error comparing passwords' });
+          }
+
+          if (!isMatch) {
+              return res.status(401).json({ message: 'Invalid email or password' });
+          }
+
+          // Passwords match, generate JWT token
+          const token = jwt.sign({ id: user.id, email: user.email }, secretKey);
+          res.json({ token });
+      });
+  });
+});
+
+// Middleware to verify JWT
+function verifyToken(req, res, next) {
+  const token = req.headers['authorization'];
+
+  if (!token) {
+    return res.status(403).json({ message: 'No token provided' });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Failed to authenticate token' });
+    }
+    req.userId = decoded.id;
+    next();
+  });
+}
+
+// Protected Route Example
+router.get('/profile', verifyToken, (req, res) => {
+
+  //variavel global database
+  const db = global.db;
+  const userId = req.userId;
+  // Fetch user profile from database using userId
+  db.query('SELECT * FROM utilizador WHERE id = ?', userId, (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error fetching profile' });
+    } else {
+      const user = results[0];
+      res.json({ user });
+    }
+  });
+});
 
 // exporta as rotas para o server.js
 module.exports = router;

@@ -10,11 +10,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const userRoute = require("./Routes/user");
-const testeRoute = require("./Routes/teste");
+const inspecaoRoute = require("./Routes/inspecao");
 
 // Routes
 app.use('/user', userRoute);
-app.use('/teste', testeRoute);
+app.use('/inspecao', inspecaoRoute);
 
 //CODE FOR CONNECTION TO DATABASE
 const db = mysql.createConnection({
