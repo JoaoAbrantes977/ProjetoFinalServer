@@ -7,7 +7,7 @@ const router = express.Router();
   })
 
 // Route to create an inspecao record
-router.post('/inspecao', (req, res) => {
+router.post('/inspection', (req, res) => {
   //variavel global database
   const db = global.db;
   const { descricao, tipologia, area, altura, data_util, 
