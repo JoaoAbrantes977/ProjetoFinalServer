@@ -125,5 +125,26 @@ router.get('/profile', verifyToken, (req, res) => {
   });
 });
 
+// Edits the User
+router.patch('/edit', verifyToken, (req, res) => {
+  // Extract user ID from the JWT token
+  const userId = req.userId;
+
+  // Extract updated user information from the request body
+  const { nome, telefone, email, especialidade } = req.body;
+
+  // Update user information in the database
+  db.query('UPDATE utilizador SET nome=?, telefone=?, email=?, especialidade=?, updatedOn = CURDATE() WHERE id=?',
+      [nome, telefone, email, especialidade, userId],
+      (err, result) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).json({ message: 'Error updating user information' });
+          }
+          res.status(200).json({ message: 'User information updated successfully' });
+      }
+  );
+});
+
 // Exports the routes to server.js
 module.exports = router;
