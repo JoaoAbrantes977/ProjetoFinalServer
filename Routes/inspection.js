@@ -15,9 +15,9 @@ router.post('/inspection', (req, res) => {
   periodo, funcionamento, utilizacao, num_fachadas, num_coberturas,
   pre_esforco, km_inicio, km_fim, material_estrutural, extensao_tabuleiro,
   largura_tabuleiro, vias_circulacao, material_pavi, sistema_drenagem, num_pilares,
-  geometria, material_revestimento, createdOn, updatedOn, id_pais } = req.body;
+  geometria, material_revestimento, id_pais } = req.body;
 
-  const tipoQuery = 'INSERT INTO tipo SET ?';
+  const tipoQuery = 'INSERT INTO tipo SET ?, createdOn = CURDATE(), updatedOn = CURDATE()';
 
   db.query(tipoQuery, tipoValues, (err, tipoResult) => {
     if (err) {
