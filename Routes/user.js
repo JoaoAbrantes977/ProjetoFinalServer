@@ -6,10 +6,6 @@ const router = express.Router();
 // Generate JWT token for the registered user
 const secretKey = "qwertyuiop";
 
-router.get('/', (req, res) => {
-    res.send('Hello World From Express!')
-  })
-
 // Route to handle user registration
 router.post('/register', (req, res) => {
 
