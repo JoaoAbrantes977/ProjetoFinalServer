@@ -9,12 +9,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+// utilizador 
 const userRoute = require("./Routes/user");
+// inspecao
 const inspectionRoute = require("./Routes/inspection");
+// plano_voo
+const flightRoute = require("./Routes/flight_plan");
 
 // Routes
 app.use('/user', userRoute);
 app.use('/inspection', inspectionRoute);
+app.use('/flightPlan', flightRoute);
 
 //CODE FOR CONNECTION TO DATABASE
 const db = mysql.createConnection({

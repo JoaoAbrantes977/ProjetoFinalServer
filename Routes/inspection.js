@@ -1,12 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-
-   router.get('/', (req, res) => {
-    res.send('Hello World From Express - Teste!')
-  })
-
-
 // Route to retrieve details of an inspection
 router.get('/:id', (req, res) => {
   //variavel global database
