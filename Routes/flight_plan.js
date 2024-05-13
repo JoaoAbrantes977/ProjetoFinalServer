@@ -61,7 +61,7 @@ router.patch('/:id', (req, res) => {
   const flightPlanData = req.body;
 
   //################################################
-  // o id da inspecção é depois passado no frontend
+  // o id do plano de voo é depois passado no frontend
   //################################################
 
   // SQL query to update flight plan data by ID
