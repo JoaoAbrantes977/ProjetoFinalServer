@@ -17,12 +17,15 @@ const inspectionRoute = require("./Routes/inspection");
 const flightRoute = require("./Routes/flight_plan");
 // pos_voo
 const afterFlightRoute = require("./Routes/after_flight");
+// process_info
+const processInfoRoute = require("./Routes/process_info");
 
 // Routes
 app.use('/user', userRoute);
 app.use('/inspection', inspectionRoute);
 app.use('/flightPlan', flightRoute);
 app.use('/afterFlight',afterFlightRoute);
+app.use('/processInfo',processInfoRoute);
 
 //CODE FOR CONNECTION TO DATABASE
 const db = mysql.createConnection({
