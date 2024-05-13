@@ -27,7 +27,6 @@ router.get('/:id', (req, res) => {
   });
 });
 
-
 // Route to handle POST requests for inserting flight plan information
 router.post('/create', (req, res) => {
       //variavel global database
@@ -89,8 +88,6 @@ router.patch('/:id', (req, res) => {
     res.status(200).send("Flight plan updated successfully");
   });
 });
-
-
 
 
 // exporta as rotas para o server.js
