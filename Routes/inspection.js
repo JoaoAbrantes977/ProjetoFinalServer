@@ -75,7 +75,8 @@ router.post('/create', (req, res) => {
       createdOn: new Date(),
       updatedOn: new Date(),
       id_utilizador: 1, // Estou a passar pelo body apenas para testar, depois guardo o id no shared_preferences do flutter
-      id_tipo: tipoId
+      id_tipo: tipoId,
+      historico: 1
     };
 
     const inspecaoQuery = 'INSERT INTO inspecao SET ?';
