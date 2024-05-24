@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// Route to handle GET requests for retrieving flight plan information by inspection ID
+// Route for retrieving flight plan information by inspection ID
 router.get('/:id', (req, res) => {
   //variavel global database
   const db = global.db;
@@ -24,6 +24,34 @@ router.get('/:id', (req, res) => {
     }
     console.log('Flight plans retrieved successfully');
     res.status(200).json(results); // Send the flight plan information as JSON response
+  });
+});
+// Route to obtain the flight plan by it's id 
+router.get('/flightPlan/:id', (req, res) => {
+  // Global database variable
+  const db = global.db;
+  const flightPlanId = req.params.id;
+
+  // SQL query to retrieve flight plan information by flight plan ID
+  const query = `
+    SELECT *
+    FROM plano_voo
+    WHERE id = ?
+  `;
+
+  // Execute the SQL query with the flight plan ID as a parameter
+  db.query(query, [flightPlanId], (error, results, fields) => {
+    if (error) {
+      console.error('Error retrieving flight plan:', error);
+      res.status(500).send("Error retrieving flight plan");
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).send("Flight plan not found");
+      return;
+    }
+    console.log('Flight plan retrieved successfully');
+    res.status(200).json(results[0]); // Send the flight plan information as JSON response
   });
 });
 
@@ -88,7 +116,6 @@ router.patch('/:id', (req, res) => {
     res.status(200).send("Flight plan updated successfully");
   });
 });
-
 
 // exporta as rotas para o server.js
 module.exports = router;
