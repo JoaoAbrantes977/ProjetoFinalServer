@@ -9,46 +9,61 @@ const secretKey = "qwertyuiop";
 // Route to handle user registration
 router.post('/register', (req, res) => {
 
-    //variavel global database
-    const db = global.db;
-    const { nome, telefone, email, especialidade, password, pais_nome } = req.body;
-    // Generate salt and hash password
-    bcrypt.hash(password, 10, (err, hashedPassword) => {
+  //variavel global database
+  const db = global.db;
+  const { nome, telefone, email, especialidade, password, pais_nome } = req.body;
+  // Generate salt and hash password
+  bcrypt.hash(password, 10, (err, hashedPassword) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Error hashing password' });
+    }
+
+    // Check if the email already exists in the database
+    const sqlCheckEmail = `SELECT id FROM utilizador WHERE email = ?`;
+
+    db.query(sqlCheckEmail, [email], (err, results) => {
       if (err) {
         console.error(err);
-        return res.status(500).json({ message: 'Error hashing password' });
+        return res.status(500).json({ message: 'Error checking email' });
       }
-  
+
+      if (results.length > 0) {
+        // If the email already exists, send a 409 response
+        return res.status(409).json({ message: 'Email already exists' });
+      }
+
       // Obtain the id of the country based on the country name
       const sqlGetCountryId = `SELECT id FROM pais WHERE nome = ?`;
-  
+
       db.query(sqlGetCountryId, [pais_nome], (err, results) => {
         if (err) {
           console.error(err);
           return res.status(500).json({ message: 'Error fetching country id' });
         }
-  
+
         if (results.length === 0) {
           return res.status(404).json({ message: 'Country not found' });
         }
-  
+
         const pais_id = results[0].id;
-  
+
         // Insert the user with the hashed password and retrieved country id
         const sqlInsertUser = `INSERT INTO utilizador (nome, telefone, email, especialidade, password, createdOn, updatedOn, id_pais) 
-                               VALUES (?, ?, ?, ?, ?, CURDATE(), CURDATE(), ?)`;
-  
+                              VALUES (?, ?, ?, ?, ?, CURDATE(), CURDATE(), ?)`;
+
         db.query(sqlInsertUser, [nome, telefone, email, especialidade, hashedPassword, pais_id], (err, result) => {
           if (err) {
             console.error(err);
             return res.status(500).json({ message: 'Error registering user' });
           }
           const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
-          res.status(201).json({ message: 'User registered successfully', token });
+          res.status(200).json({ message: 'User registered successfully', token });
         });
       });
     });
   });
+});
 
 // Login Endpoint
 router.post('/login', (req, res) => {
