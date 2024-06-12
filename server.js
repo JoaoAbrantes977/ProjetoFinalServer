@@ -32,7 +32,7 @@ const db = mysql.createConnection({
     host:"localhost",
     port:"3306",
     user:"root",
-    database:"projeto_final",
+    database:"cenas",
     });
     
     db.connect(function(err){
