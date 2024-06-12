@@ -47,6 +47,68 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// Obtain all inspections based on a user id 
+router.get('/all/:id', (req, res) => {
+  const db = global.db;
+  const userId = req.params.id;
+
+  // Query to retrieve inspections based on the user ID
+  const inspectionQuery = 'SELECT inspecao.*, tipo.* FROM inspecao INNER JOIN tipo ON inspecao.id_tipo = tipo.id WHERE inspecao.id_utilizador = ?';
+
+  db.query(inspectionQuery, [userId], (err, inspectionResults) => {
+    if (err) {
+      console.error('Error retrieving inspections: ' + err.stack);
+      res.status(500).send('Error retrieving inspections');
+      return;
+    }
+
+    if (inspectionResults.length === 0) {
+      res.status(404).send('No inspections found for the user');
+      return;
+    }
+
+    const inspections = inspectionResults.map(row => {
+      return {
+        id: row.id,
+        historico: row.historico,
+        createdOn: row.createdOn,
+        updatedOn: row.updatedOn,
+        tipo: {
+          id: row.id_tipo,
+          nome: row.nome,
+          descricao: row.descricao,
+          tipologia: row.tipologia,
+          area: row.area,
+          altura: row.altura,
+          data_util: row.data_util,
+          periodo: row.periodo,
+          funcionamento: row.funcionamento,
+          utilizacao: row.utilizacao,
+          num_fachadas: row.num_fachadas,
+          num_coberturas: row.num_coberturas,
+          pre_esforco: row.pre_esforco,
+          km_inicio: row.km_inicio,
+          km_fim: row.km_fim,
+          material_estrutural: row.material_estrutural,
+          extensao_tabuleiro: row.extensao_tabuleiro,
+          largura_tabuleiro: row.largura_tabuleiro,
+          vias_circulacao: row.vias_circulacao,
+          material_pavi: row.material_pavi,
+          sistema_drenagem: row.sistema_drenagem,
+          num_pilares: row.num_pilares,
+          geometria: row.geometria,
+          material_revestimento: row.material_revestimento,
+          createdOn: row.tipo_createdOn,
+          updatedOn: row.tipo_updatedOn,
+          id_morada: row.id_morada
+        }
+      };
+    });
+
+    res.status(200).json({ inspections });
+  });
+});
+
 // Route to create an inspecao record
 router.post('/create', (req, res) => {
   // variavel global database

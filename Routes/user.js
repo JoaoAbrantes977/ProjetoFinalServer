@@ -164,7 +164,7 @@ router.post('/login', (req, res) => {
 
           // Passwords match, generate JWT token
           const token = jwt.sign({ id: user.id, email: user.email }, secretKey);
-          res.json({ token });
+          res.json({ token, userId: user.id });
       });
   });
 });
