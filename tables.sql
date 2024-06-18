@@ -84,6 +84,7 @@ CREATE TABLE utilizador
 CREATE TABLE drone
 (
   id INT NOT NULL AUTO_INCREMENT,
+  gama VARCHAR(255) NOT NULL,
   propulsao VARCHAR(255) NOT NULL,
   num_rotores INT NOT NULL,
   peso FLOAT NOT NULL,
