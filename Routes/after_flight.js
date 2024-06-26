@@ -3,26 +3,22 @@ const router = express.Router();
 
 // Route to handle POST requests for creating a "pos_voo" entry
 router.post('/create', (req, res) => {
-    //variavel global database
-    const db = global.db;
+  const db = global.db;
+  const posVooData = req.body;
   
-    // Extracting "pos_voo" data from request body
-    const posVooData = req.body;
+  const query = 'INSERT INTO pos_voo SET ?, createdOn = CURDATE(), updatedOn = CURDATE()';
   
-    // SQL query to insert "pos_voo" data into the database
-    const query = 'INSERT INTO pos_voo SET ?, createdOn = CURDATE(), updatedOn = CURDATE()';
-  
-    // Execute the SQL query
-    db.query(query, posVooData, (error, results, fields) => {
-      if (error) {
-        console.error('Error inserting pos_voo data:', error);
-        res.status(500).send("Error inserting pos_voo data");
-        return;
-      }
-      console.log('pos_voo inserted successfully');
-      res.status(200).send("pos_voo inserted successfully");
-    });
+  db.query(query, posVooData, (error, results) => {
+    if (error) {
+      console.error('Error inserting pos_voo data:', error);
+      res.status(500).send("Error inserting pos_voo data");
+      return;
+    }
+    console.log('pos_voo inserted successfully');
+    res.status(200).json({ insertedId: results.insertId });
   });
+});
+
 
 // Route to handle GET requests for retrieving pos_voo entries by id_plano
 router.get('/:id', (req, res) => {
