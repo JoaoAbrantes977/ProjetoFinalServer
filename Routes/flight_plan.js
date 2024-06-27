@@ -23,9 +23,10 @@ router.get('/:id', (req, res) => {
       return;
     }
     console.log('Flight plans retrieved successfully');
-    res.status(200).json(results); // Send the flight plan information as JSON response
+    res.status(200).json(results[0]); // Send the flight plan information as JSON response
   });
 });
+
 // Route to obtain the flight plan by it's id 
 router.get('/flightPlan/:id', (req, res) => {
   // Global database variable
@@ -96,7 +97,6 @@ router.post('/create', (req, res) => {
     });
   });
 });
-
 
 // Route to handle PATCH requests for updating flight plan information by ID
 router.patch('/:id', (req, res) => {

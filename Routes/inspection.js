@@ -227,6 +227,18 @@ router.patch('/:id', (req, res) => {
   });
 });
 
+// Route to get user inspections by user ID
+router.get('/user/:userId', (req, res) => {
+    //variavel global database
+    const db = global.db;
+  const userId = req.params.userId;
+  const query = 'SELECT * FROM inspecao WHERE id_utilizador = ?';
+  db.query(query, [userId], (error, results) => {
+    if (error) throw error;
+    res.json(results);
+  });
+});
+
 // Route to delete an inspection and its associated tipo record
 router.delete('/:id', (req, res) => {
   //variavel global database

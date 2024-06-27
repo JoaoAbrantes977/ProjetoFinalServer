@@ -19,7 +19,6 @@ router.post('/create', (req, res) => {
   });
 });
 
-
 // Route to handle GET requests for retrieving pos_voo entries by id_plano
 router.get('/:id', (req, res) => {
     //variavel global database
