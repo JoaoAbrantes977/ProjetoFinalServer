@@ -21,6 +21,8 @@ const afterFlightRoute = require("./Routes/after_flight");
 const processInfoRoute = require("./Routes/process_info");
 // drone
 const droneRoute = require("./Routes/drone");
+// report
+const reportRoute = require("./Routes/reports");
 
 // Routes
 app.use('/user', userRoute);
@@ -29,6 +31,7 @@ app.use('/flightPlan', flightRoute);
 app.use('/afterFlight',afterFlightRoute);
 app.use('/processInfo',processInfoRoute);
 app.use('/drone',droneRoute);
+app.use('/report',reportRoute);
 
 //CODE FOR CONNECTION TO DATABASE
 const db = mysql.createConnection({
