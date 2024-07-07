@@ -209,13 +209,13 @@ router.patch('/:id', (req, res) => {
     const tipoId = tipoIdResult[0].id_tipo;
 
     // Extract updated tipo details from the request body
-    const { descricao, tipologia, area, altura, data_util, periodo, funcionamento, utilizacao, num_fachadas, num_coberturas, pre_esforco, km_inicio, km_fim, material_estrutural, extensao_tabuleiro, largura_tabuleiro, vias_circulacao, material_pavi, sistema_drenagem, num_pilares, geometria, material_revestimento} = req.body;
+    const {nome, descricao, tipologia, area, altura, data_util, periodo, funcionamento, utilizacao, num_fachadas, num_coberturas, pre_esforco, km_inicio, km_fim, material_estrutural, extensao_tabuleiro, largura_tabuleiro, vias_circulacao, material_pavi, sistema_drenagem, num_pilares, geometria, material_revestimento} = req.body;
 
     // Query to update the tipo record
-    const updateTipoQuery = `UPDATE tipo SET descricao = ?, tipologia = ?, area = ?, altura = ?, data_util = ?, periodo = ?, funcionamento = ?, utilizacao = ?, num_fachadas = ?, num_coberturas = ?, pre_esforco = ?, km_inicio = ?, km_fim = ?, material_estrutural = ?, extensao_tabuleiro = ?, largura_tabuleiro = ?, vias_circulacao = ?, material_pavi = ?, sistema_drenagem = ?, num_pilares = ?, geometria = ?, material_revestimento = ?, updatedOn = CURDATE() WHERE id = ?`;
+    const updateTipoQuery = `UPDATE tipo SET nome = ?, descricao = ?, tipologia = ?, area = ?, altura = ?, data_util = ?, periodo = ?, funcionamento = ?, utilizacao = ?, num_fachadas = ?, num_coberturas = ?, pre_esforco = ?, km_inicio = ?, km_fim = ?, material_estrutural = ?, extensao_tabuleiro = ?, largura_tabuleiro = ?, vias_circulacao = ?, material_pavi = ?, sistema_drenagem = ?, num_pilares = ?, geometria = ?, material_revestimento = ?, updatedOn = CURDATE() WHERE id = ?`;
 
     // Execute the update query
-    db.query(updateTipoQuery, [descricao, tipologia, area, altura, data_util, periodo, funcionamento, utilizacao, num_fachadas, num_coberturas, pre_esforco, km_inicio, km_fim, material_estrutural, extensao_tabuleiro, largura_tabuleiro, vias_circulacao, material_pavi, sistema_drenagem, num_pilares, geometria, material_revestimento, tipoId], (err, updateTipoResult) => {
+    db.query(updateTipoQuery, [nome, descricao, tipologia, area, altura, data_util, periodo, funcionamento, utilizacao, num_fachadas, num_coberturas, pre_esforco, km_inicio, km_fim, material_estrutural, extensao_tabuleiro, largura_tabuleiro, vias_circulacao, material_pavi, sistema_drenagem, num_pilares, geometria, material_revestimento, tipoId], (err, updateTipoResult) => {
       if (err) {
         console.error('Error updating tipo record: ' + err.stack);
         res.status(500).send('Error updating tipo record');

@@ -187,27 +187,32 @@ function verifyToken(req, res, next) {
 }
 
 // Protected Route Example
-router.get('/profile', verifyToken, (req, res) => {
-
-  //variavel global database
+router.get('/profile/:id', (req, res) => {
+  // variavel global database
   const db = global.db;
-  const userId = req.userId;
+  const userId = req.params.id; // Get the id parameter from URL
+  
   // Fetch user profile from database using userId
   db.query('SELECT * FROM utilizador WHERE id = ?', userId, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: 'Error fetching profile' });
     } else {
-      const user = results[0];
-      res.json({ user });
+      if (results.length === 0) {
+        res.status(404).json({ message: 'User not found' });
+      } else {
+        const user = results[0];
+        res.json({ user });
+      }
     }
   });
 });
 
+
 // Edits the User
-router.patch('/edit', verifyToken, (req, res) => {
+router.patch('/edit/:id', (req, res) => {
   // Extract user ID from the JWT token
-  const userId = req.userId;
+  const userId = req.params.id;
 
   // Extract updated user information from the request body
   const { nome, telefone, email, especialidade } = req.body;

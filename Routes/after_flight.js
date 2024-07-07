@@ -75,6 +75,5 @@ router.patch('/:id', (req, res) => {
   });
    
   
-
 // exporta as rotas para o server.js
 module.exports = router;

@@ -9,13 +9,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-// utilizador 
+// user 
 const userRoute = require("./Routes/user");
-// inspecao
+// inspection
 const inspectionRoute = require("./Routes/inspection");
-// plano_voo
+// flight_plan
 const flightRoute = require("./Routes/flight_plan");
-// pos_voo
+// after_flight
 const afterFlightRoute = require("./Routes/after_flight");
 // process_info
 const processInfoRoute = require("./Routes/process_info");
