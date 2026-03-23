@@ -21,81 +21,34 @@ router.get('/', (req, res) => {
     });
   });
   
-// PRoute to handle POST requests to add new drones
+// Route to handle POST requests to add new drones
 router.post('/', (req, res) => {
       //variavel global database
       const db = global.db;
 
     const {
-      gama,
-      propulsao,
-      num_rotores,
-      peso,
-      alcance_max,
-      altitude_max,
-      tempo_voo_max,
-      tempo_bateria,
-      velocidade_max,
-      velocidade_ascente,
-      velocidade_descendente,
-      resistencia_vento,
-      temperatura,
-      sistema_localizacao,
-      tipo_camera,
-      comprimento_img,
-      largura_img,
-      fov,
-      resolucao_cam
+      gama, propulsao, num_rotores, peso, alcance_max, altitude_max, tempo_voo_max, 
+      tempo_bateria, velocidade_max, velocidade_ascente, velocidade_descendente, 
+      resistencia_vento, temperatura, sistema_localizacao, tipo_camera, 
+      comprimento_img, largura_img, fov, resolucao_cam
     } = req.body;
   
     const query = `
       INSERT INTO drone (
-        gama,
-        propulsao,
-        num_rotores,
-        peso,
-        alcance_max,
-        altitude_max,
-        tempo_voo_max,
-        tempo_bateria,
-        velocidade_max,
-        velocidade_ascente,
-        velocidade_descendente,
-        resistencia_vento,
-        temperatura,
-        sistema_localizacao,
-        tipo_camera,
-        comprimento_img,
-        largura_img,
-        fov,
-        resolucao_cam,
-        createdOn,
-        updatedOn,
-        id_fabricante
+        gama, propulsao, num_rotores, peso, alcance_max, altitude_max,
+        tempo_voo_max, tempo_bateria, velocidade_max, velocidade_ascente,
+        velocidade_descendente, resistencia_vento, temperatura,
+        sistema_localizacao, tipo_camera, comprimento_img, largura_img,
+        fov, resolucao_cam, createdOn, updatedOn, id_fabricante
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)
     `;
   
     const values = [
-      gama,
-      propulsao,
-      num_rotores,
-      peso,
-      alcance_max,
-      altitude_max,
-      tempo_voo_max,
-      tempo_bateria,
-      velocidade_max,
-      velocidade_ascente,
-      velocidade_descendente,
-      resistencia_vento,
-      temperatura,
-      sistema_localizacao,
-      tipo_camera,
-      comprimento_img,
-      largura_img,
-      fov,
-      resolucao_cam,
-      1
+      gama, propulsao, num_rotores, peso, alcance_max, altitude_max,
+      tempo_voo_max, tempo_bateria, velocidade_max, velocidade_ascente,
+      velocidade_descendente, resistencia_vento, temperatura,
+      sistema_localizacao, tipo_camera, comprimento_img,
+      largura_img, fov, resolucao_cam, 1
     ];
   
     db.query(query, values, (error, results, fields) => {

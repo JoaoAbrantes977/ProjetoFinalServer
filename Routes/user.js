@@ -186,8 +186,8 @@ function verifyToken(req, res, next) {
   });
 }
 
-// Protected Route Example
-router.get('/profile/:id', (req, res) => {
+// Obtain user profile 
+router.get('/profile/:id', verifyToken, (req, res) => {
   // variavel global database
   const db = global.db;
   const userId = req.params.id; // Get the id parameter from URL
@@ -208,9 +208,8 @@ router.get('/profile/:id', (req, res) => {
   });
 });
 
-
 // Edits the User
-router.patch('/edit/:id', (req, res) => {
+router.patch('/edit/:id', verifyToken, (req, res) => {
   // Extract user ID from the JWT token
   const userId = req.params.id;
 
